@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: fallback-example
+grpc:
+  client:
+    GLOBAL:
+      address: "static://localhost:9000"
+      negotiation-type: plaintext
