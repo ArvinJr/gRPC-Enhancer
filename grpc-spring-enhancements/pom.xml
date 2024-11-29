@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>grpc-spring-enhancements</artifactId>
-    <!-- <version>${grpc.enhancer.version}</version> -->
 
     <properties>
     </properties>
