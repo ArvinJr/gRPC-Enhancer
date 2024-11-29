@@ -1,4 +1,4 @@
-package com.github.arvinjr.enhancer.inject;
+package io.github.arvinjr.enhancer.inject;
 
 import java.lang.annotation.*;
 

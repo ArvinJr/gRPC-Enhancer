@@ -1,4 +1,4 @@
-package com.github.arvinjr.enhancer.util;
+package io.github.arvinjr.enhancer.util;
 
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;

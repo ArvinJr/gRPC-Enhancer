@@ -20,7 +20,7 @@ gRPC-Spring-Enhancements 是一个基于 [grpc-spring](https://github.com/grpc-e
         </dependency>
     
         <dependency>
-            <groupId>com.github.arvinjr</groupId>
+            <groupId>io.github.arvinjr</groupId>
             <artifactId>grpc-spring-enhancements</artifactId>
         </dependency>
 
@@ -47,7 +47,7 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     compile('net.devh:grpc-client-spring-boot-starter')
-    compile('com.github.arvinjr:grpc-spring-enhancements')
+    compile('io.github.arvinjr:grpc-spring-enhancements')
     compile('my-example:my-grpc-interface')
 }
 
@@ -68,10 +68,10 @@ buildscript {
 ````proto
 syntax = "proto3";
 
-package com.github.arvinjr.example;
+package io.github.arvinjr.example;
 
 option java_multiple_files = true;
-option java_package = "com.github.arvinjr.examples.lib";
+option java_package = "io.github.arvinjr.examples.lib";
 option java_outer_classname = "HelloWorldProto";
 
 // The greeting service definition.
@@ -104,7 +104,7 @@ import example.MyServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import org.springframework.stereotype.Service;
 
-import com.github.arvinjr.enhancer.inject.GrpcFallback;
+import io.github.arvinjr.enhancer.inject.GrpcFallback;
 
 @Service
 @GrpcFallback

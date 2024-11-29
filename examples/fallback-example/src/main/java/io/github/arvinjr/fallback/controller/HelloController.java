@@ -1,4 +1,4 @@
-package com.github.arvinjr.fallback.controller;
+package io.github.arvinjr.fallback.controller;
 
 import com.github.arvinjr.grpc.HelloProto;
 import com.github.arvinjr.grpc.HelloServiceGrpc;

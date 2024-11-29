@@ -1,7 +1,7 @@
-package com.github.arvinjr.enhancer.interceptor;
+package io.github.arvinjr.enhancer.interceptor;
 
-import com.github.arvinjr.enhancer.util.EnhancementStreamObserver;
-import com.github.arvinjr.enhancer.util.FallbackUtil;
+import io.github.arvinjr.enhancer.util.EnhancementStreamObserver;
+import io.github.arvinjr.enhancer.util.FallbackUtil;
 import io.grpc.*;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;

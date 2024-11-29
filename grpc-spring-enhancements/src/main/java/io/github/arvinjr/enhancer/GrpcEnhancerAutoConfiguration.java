@@ -1,7 +1,7 @@
-package com.github.arvinjr.enhancer;
+package io.github.arvinjr.enhancer;
 
-import com.github.arvinjr.enhancer.inject.GrpcFallback;
-import com.github.arvinjr.enhancer.interceptor.FallbackInterceptor;
+import io.github.arvinjr.enhancer.inject.GrpcFallback;
+import io.github.arvinjr.enhancer.interceptor.FallbackInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.autoconfigure.GrpcClientAutoConfiguration;

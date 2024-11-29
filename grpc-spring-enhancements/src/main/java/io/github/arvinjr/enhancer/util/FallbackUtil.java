@@ -1,4 +1,4 @@
-package com.github.arvinjr.enhancer.util;
+package io.github.arvinjr.enhancer.util;
 
 import io.grpc.ClientCall;
 import io.grpc.internal.GrpcUtil;

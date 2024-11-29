@@ -12,7 +12,7 @@ README: [English](README.md) | [中文](README-zh-CN.md)
 
 ````xml
 <dependency>
-    <groupId>com.github.arvinjr</groupId>
+    <groupId>io.github.arvinjr</groupId>
     <artifactId>grpc-spring-enhancements</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -23,7 +23,7 @@ README: [English](README.md) | [中文](README-zh-CN.md)
 
 ````gradle
 dependencies {
-  implementation 'com.github.arvinjr:grpc-spring-enhancements:1.0.0'
+  implementation 'io.github.arvinjr:grpc-spring-enhancements:1.0.0'
 }
 ````
 
