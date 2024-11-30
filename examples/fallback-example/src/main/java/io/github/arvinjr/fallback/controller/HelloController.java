@@ -1,7 +1,7 @@
 package io.github.arvinjr.fallback.controller;
 
-import com.github.arvinjr.grpc.HelloProto;
-import com.github.arvinjr.grpc.HelloServiceGrpc;
+import io.github.arvinjr.grpc.HelloProto;
+import io.github.arvinjr.grpc.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
