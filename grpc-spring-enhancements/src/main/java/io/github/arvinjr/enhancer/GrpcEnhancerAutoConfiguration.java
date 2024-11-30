@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Configuration
 @AutoConfigureAfter(GrpcClientAutoConfiguration.class)
-@ComponentScan(basePackages = "com.github.arvinjr.enhancer")
+@ComponentScan(basePackages = "io.github.arvinjr.enhancer")
 @Slf4j
 @RequiredArgsConstructor
 public class GrpcEnhancerAutoConfiguration {
