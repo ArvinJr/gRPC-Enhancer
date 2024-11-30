@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * gRPC fallback拦截器
+ * Interceptor for gRPC fallback
  *
  * @author arvin
  * @date 2024/11/23
@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @AllArgsConstructor
 public class FallbackInterceptor implements ClientInterceptor {
 
-	// 默认实现实例
+	// Default implementation instance
 	private Object fallbackInstance;
 
 	@Override
@@ -59,9 +59,9 @@ public class FallbackInterceptor implements ClientInterceptor {
 					@Override
 					public void onClose(Status status, Metadata trailers) {
 						if (!status.isOk() && !status.equals(Status.CANCELLED)) {
-							log.warn("{} 请求出现异常开始调用默认实现", method.getFullMethodName());
+							log.warn("An exception occurred while processing the request for {}. Falling back to the default implementation.", method.getFullMethodName());
 
-							// 在proto文件中的方法名
+							// Method name in the proto file.
 							final String methodName = method.getBareMethodName();
 
 							final Method[] fallbackMethods = fallbackInstance.getClass().getDeclaredMethods();
@@ -71,7 +71,7 @@ public class FallbackInterceptor implements ClientInterceptor {
 									.orElse(null);
 
 							if (Objects.isNull(targetMethod)) {
-								log.warn("{} 默认实现未找到，将使用gRPC默认处理！", method.getFullMethodName());
+								log.warn("Default implementation for {} not found, using gRPC default handling!", method.getFullMethodName());
 								super.onClose(status, trailers);
 								return;
 							}
@@ -80,13 +80,13 @@ public class FallbackInterceptor implements ClientInterceptor {
 							CompletableFuture<Void> transformed = CompletableFuture.completedFuture(null);
 							final EnhancementStreamObserver<RespT> respStreamObserver = new EnhancementStreamObserver<>();
 							try {
-								// 调用目标方法获取默认返回
+								// Invoke the target method to get the default return value.
 								if (parameterCount == 2) {
-									// 客户端非流
+									// gRPC Client without stream
 									final ReqT requestParam = requestStreamObserver.take();
 									targetMethod.invoke(fallbackInstance, requestParam, respStreamObserver);
 								} else {
-									// 客户端流
+									// gRPC Client with stream
 									StreamObserver<ReqT> requestStreamObserver4write = (StreamObserver<ReqT>) targetMethod.invoke(fallbackInstance, respStreamObserver);
 									transformed = FallbackUtil.transformStreamObserver(requestStreamObserver,
 											requestStreamObserver4write,
@@ -103,7 +103,7 @@ public class FallbackInterceptor implements ClientInterceptor {
 							         RuntimeException |
 							         InvocationTargetException |
 							         IllegalAccessException e) {
-								log.error("默认实现调用失败，将使用gRPC默认处理！", e);
+								log.error("Failed to invoke the default implementation, using gRPC default handling!", e);
 							}
 						}
 

@@ -11,7 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 
 /**
- * fallback工具类
+ * Utils for gRPC fallback
  *
  * @author arvin
  * @date 2024/11/23
@@ -20,12 +20,12 @@ import java.util.function.Consumer;
 public class FallbackUtil {
 
 	/**
-	 * 异步消费响应流
+	 * Asynchronously consume the response stream.
 	 *
-	 * @param streamObserver 响应流
-	 * @param onMessage {@link ClientCall.Listener#onMessage(Object)} 方法
-	 * @param executor 线程池
-	 * @param <T> 响应消息类型
+	 * @param streamObserver Response stream.
+	 * @param onMessage {@link ClientCall.Listener#onMessage(Object)} method.
+	 * @param executor Thread pool.
+	 * @param <T> Type of response message.
 	 */
 	public static <T> CompletableFuture<Void> consumeResponseStreamObserver(EnhancementStreamObserver<T> streamObserver,
 	                                                                        Consumer<T> onMessage,
@@ -44,11 +44,12 @@ public class FallbackUtil {
 	}
 
 	/**
-	 * 将增强用 StreamObserver 流转换成目标流
-	 * @param source 源流
-	 * @param target 目标流
-	 * @param executor 线程池
-	 * @param <T> 消息类型
+	 * Convert the {@link EnhancementStreamObserver} to the target stream.
+	 *
+	 * @param source Source stream.
+	 * @param target Target stream.
+	 * @param executor Thread pool.
+	 * @param <T> Type of message.
 	 */
 	public static <T> CompletableFuture<Void> transformStreamObserver(EnhancementStreamObserver<T> source,
 	                                                                  StreamObserver<T> target,
@@ -70,8 +71,9 @@ public class FallbackUtil {
 	}
 
 	/**
-	 * 获取gRPC默认线程池
-	 * @return gRPC线程池
+	 * Get the default thread pool of gRPC.
+	 *
+	 * @return gRPC thread pool.
 	 */
 	public static Executor getGrpcDefaultExecutor() {
 		final SharedResourceHolder.Resource<Executor> sharedChannelExecutor = GrpcUtil.SHARED_CHANNEL_EXECUTOR;
@@ -79,8 +81,8 @@ public class FallbackUtil {
 	}
 
 	/**
-	 * 打印当前线程名称
-	 * 仅 debug 模式启用
+	 * Printout the current thread name.
+	 * Only printout when debug level is enabled.
 	 */
 	private static void debugLog() {
 		if (log.isDebugEnabled()) {

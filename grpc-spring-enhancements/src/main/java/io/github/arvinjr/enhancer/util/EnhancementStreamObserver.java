@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * 增强用 StreamObserver
+ * {@link StreamObserver} for enhancements.
  *
  * @author arvin
  * @date 2024/11/23
@@ -15,14 +15,18 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class EnhancementStreamObserver<T> implements StreamObserver<T> {
 
 	/**
-	 * 消息对象包装类
+	 * Wrapper for gRPC message.
 	 *
-	 * @param <T> 封装的消息类型
+	 * @param <T> Message type.
 	 */
 	static class WrappedMessage<T> {
-		// 消息
+		/**
+		 * Message
+		 */
 		private final T value;
-		// 是否是结束标记
+		/**
+		 * Is an end marker
+		 */
 		private final boolean isPoisonPill;
 
 		public WrappedMessage(T value) {
@@ -36,17 +40,17 @@ public class EnhancementStreamObserver<T> implements StreamObserver<T> {
 		}
 
 		/**
-		 * 创建结束标记
+		 * Create an end marker
 		 *
-		 * @return 结束标记
-		 * @param <T> 封装的消息类型
+		 * @return The end marker
+		 * @param <T> Message type.
 		 */
 		public static <T> WrappedMessage<T> poisonPill() {
 			return new WrappedMessage<>(true);
 		}
 
 		/**
-		 * 是否是结束标记
+		 * Is an end marker
 		 */
 		public boolean isPoisonPill() {
 			return isPoisonPill;
@@ -54,13 +58,21 @@ public class EnhancementStreamObserver<T> implements StreamObserver<T> {
 
 	}
 
-	// 消息队列
+	/**
+	 * Message queue
+	 */
 	private final LinkedBlockingQueue<WrappedMessage<T>> queue;
-	// 是否已经结束
+	/**
+	 * Mark for {@link StreamObserver#onCompleted()}
+	 */
 	private volatile boolean isCompleted = false;
-	// 是否出现异常
+	/**
+	 * Mark for {@link StreamObserver#onError(Throwable)}
+	 */
 	private volatile boolean hasError = false;
-	// 异常信息
+	/**
+	 * Error message
+	 */
 	private volatile Throwable error;
 
 	public EnhancementStreamObserver(int capacity) {
@@ -77,12 +89,12 @@ public class EnhancementStreamObserver<T> implements StreamObserver<T> {
 			if (!isCompleted && !hasError) {
 				queue.put(new WrappedMessage<>(value));
 			} else {
-				log.warn("在出现异常或收到终止标记后仍尝试写入：{}", value.toString());
-				this.onError(new RuntimeException("在出现异常或收到终止标记后仍尝试写入：" + value));
+				log.warn("Attempting to write after an exception or receiving the termination marker: {}", value.toString());
+				this.onError(new RuntimeException("Attempting to write after an exception or receiving the termination marker: " + value));
 			}
 		} catch (InterruptedException e) {
-			log.error("消息 {} 入队异常!", value.toString(), e);
-			this.onError(new RuntimeException("消息" + value + "入队异常!", e));
+			log.error("Exception while enqueueing message {}!", value.toString(), e);
+			this.onError(new RuntimeException("Exception while enqueueing message " + value + "!", e));
 		}
 	}
 
@@ -100,9 +112,9 @@ public class EnhancementStreamObserver<T> implements StreamObserver<T> {
 	}
 
 	/**
-	 * 获取消息
+	 * Get message
 	 *
-	 * @return 消息
+	 * @return message
 	 * @throws InterruptedException
 	 * @throws RuntimeException
 	 */
@@ -111,8 +123,8 @@ public class EnhancementStreamObserver<T> implements StreamObserver<T> {
 
 		if (message.isPoisonPill()) {
 			if (hasError) {
-				log.warn("CustomStreamObserver接收到异常");
-				throw new RuntimeException("CustomStreamObserver出现异常", error);
+				log.warn("EnhancementStreamObserver received error!");
+				throw new RuntimeException("EnhancementStreamObserver received error!", error);
 			}
 			return null;
 		}
@@ -121,8 +133,8 @@ public class EnhancementStreamObserver<T> implements StreamObserver<T> {
 	}
 
 	/**
-	 * 清空消息队列
-	 * 用于 GC 优化
+	 * Clear message queue.
+	 * Used for GC optimization.
 	 */
 	public void clear() {
 		queue.clear();

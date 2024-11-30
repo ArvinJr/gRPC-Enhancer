@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * grp-enhancer自动配置
+ * AutoConfiguration for gRPC Spring Enhancements.
  *
  * @author arvin
  * @date 2024/11/27
@@ -32,7 +32,7 @@ public class GrpcEnhancerAutoConfiguration {
 	private final ApplicationContext applicationContext;
 
 	/**
-	 * 为所有stub注入已存在的默认实现
+	 * Inject existing default implementations for all grpc stubs.
 	 */
 	@Bean
 	public StubTransformer fallbackStubTransformer() {
@@ -45,13 +45,13 @@ public class GrpcEnhancerAutoConfiguration {
 			final Class<?> grpcServiceClass = stub.getClass().getEnclosingClass();
 
 			try {
-				// 获取目标stub的AsyncService接口
+				// Get the AsyncService interface of the target stub.
 				final Class<?> targetInterface = Arrays.stream(grpcServiceClass.getClasses())
 						.filter(clazz -> "AsyncService".equals(clazz.getSimpleName()))
 						.findFirst()
-						.orElseThrow(() -> new IllegalStateException("找不到" + stubName + "对应的AsyncService接口"));
+						.orElseThrow(() -> new IllegalStateException("Cannot find the AsyncService interface corresponding to " + stubName));
 
-				// 获取默认实现类
+				// Get the default implementation class.
 				final List<?> fallbackBeans = applicationContext.getBeansOfType(targetInterface)
 						.values()
 						.stream()
@@ -61,17 +61,17 @@ public class GrpcEnhancerAutoConfiguration {
 				if (!fallbackBeans.isEmpty()) {
 					final Object fallbackBean = fallbackBeans.get(0);
 					if (fallbackBeans.size() > 1) {
-						log.warn("存在多个 {} 的默认实现，将使用第一个 {}", grpcServiceClass.getSimpleName(), fallbackBean.getClass().getSimpleName());
+						log.warn("Multiple default implementations of {} found, using the first one: {}", grpcServiceClass.getSimpleName(), fallbackBean.getClass().getSimpleName());
 					}
-					log.info("为 {} 注入fallbackBean:{}", stubName, fallbackBean);
+					log.info("Injecting fallbackBean for {}: {}", stubName, fallbackBean);
 					return stub.withInterceptors(new FallbackInterceptor(fallbackBean));
 				} else {
-					log.warn("未找到 {} 对应的默认实现，将使用默认stub", grpcServiceClass.getSimpleName());
+					log.warn("No default implementation found for {}, using the default stub.", grpcServiceClass.getSimpleName());
 					return stub;
 				}
 			} catch (Exception e) {
-				log.error("解析 {} 的默认实现时出现异常：", stubName, e);
-				throw new RuntimeException("解析" + stubName + "的默认实现时出现异常", e);
+				log.error("An error occurred while parsing the default implementation for {}: ", stubName, e);
+				throw new RuntimeException("An error occurred while parsing the default implementation for " + stubName, e);
 			}
 		});
 	}
