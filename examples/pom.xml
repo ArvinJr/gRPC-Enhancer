@@ -19,7 +19,7 @@
         <dependency>
             <groupId>io.github.arvinjr</groupId>
             <artifactId>grpc-spring-enhancements</artifactId>
-            <version>1.0.0</version>
+            <version>${version}</version>
         </dependency>
 
         <dependency>
