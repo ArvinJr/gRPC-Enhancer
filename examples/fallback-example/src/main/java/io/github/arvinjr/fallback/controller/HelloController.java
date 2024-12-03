@@ -25,9 +25,9 @@ public class HelloController {
 	@RequestMapping("/test1")
 	public String test1(String name) {
 
-		log.info("hello收到：{}", name);
+		log.info("hello received => {}", name);
 		final HelloProto.HelloResponse helloResponse = stub.hello(HelloProto.HelloRequest.newBuilder().setName(name).build());
-		return "服务端响应: " + helloResponse.getResult();
+		return "Server Responses => " + helloResponse.getResult();
 	}
 
 	@RequestMapping("/test2")
@@ -36,7 +36,7 @@ public class HelloController {
 		final StreamObserver<HelloProto.HelloRequest> request = asyncStub.cs2s(new StreamObserver<HelloProto.HelloResponse>() {
 			@Override
 			public void onNext(HelloProto.HelloResponse value) {
-				log.info("cs2s收到：{}", value.getAllFields());
+				log.info("cs2s received => {}", value.getAllFields());
 				response[0] = value;
 			}
 
@@ -61,7 +61,7 @@ public class HelloController {
 		request.onCompleted();
 		Thread.sleep(3000);
 		final String result = response[0].getResult();
-		return result;
+		return "Server Responses => " +result;
 	}
 
 }
