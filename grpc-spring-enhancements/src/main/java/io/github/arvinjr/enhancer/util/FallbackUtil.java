@@ -86,7 +86,7 @@ public class FallbackUtil {
 	 */
 	private static void debugLog() {
 		if (log.isDebugEnabled()) {
-			log.debug("当前线程为：{}", Thread.currentThread().getName());
+			log.debug("Current thread is: {}", Thread.currentThread().getName());
 		}
 	}
 
