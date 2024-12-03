@@ -21,9 +21,9 @@ public class HelloServiceImpl implements HelloServiceGrpc.AsyncService {
 
 	@Override
 	public void hello(HelloProto.HelloRequest request, StreamObserver<HelloProto.HelloResponse> responseObserver) {
-		log.info("默认回调收到：{}", request.getName());
+		log.info("Default implementation of hello received => {}", request.getName());
 
-		responseObserver.onNext(HelloProto.HelloResponse.newBuilder().setResult("默认回调响应").build());
+		responseObserver.onNext(HelloProto.HelloResponse.newBuilder().setResult("Response of Default Callback").build());
 		responseObserver.onCompleted();
 	}
 
@@ -36,7 +36,7 @@ public class HelloServiceImpl implements HelloServiceGrpc.AsyncService {
 			@Override
 			public void onNext(HelloProto.HelloRequest value) {
 				final String name = value.getName();
-				log.info("默认回调收到：{}", name);
+				log.info("Default implementation of cs2s received => {}", name);
 				messages.add(name);
 			}
 
@@ -49,7 +49,7 @@ public class HelloServiceImpl implements HelloServiceGrpc.AsyncService {
 			public void onCompleted() {
 				responseObserver.onNext(HelloProto.HelloResponse
 						.newBuilder()
-						.setResult("默认回调收到了" + messages.size() + "条消息")
+						.setResult("Default Callback received " + messages.size() + " messages.")
 						.build());
 				responseObserver.onCompleted();
 			}
