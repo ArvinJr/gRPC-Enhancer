@@ -1,11 +1,11 @@
-# gRPC-Spring-Enhancements 文档
+# gRPC Spring Enhancements 文档
 
-gRPC-Spring-Enhancements 是一个基于 [grpc-spring](https://github.com/grpc-ecosystem/grpc-spring) 的增强工具包，当前已实现类似 [Spring Cloud OpenFeign fallback](https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html#spring-cloud-feign-circuitbreaker-fallback) 功能。
+`gRPC Spring Enhancements` 是一个基于 [grpc-spring](https://github.com/grpc-ecosystem/grpc-spring) 的增强工具包，当前已实现类似 [Spring Cloud OpenFeign fallback](https://docs.spring.io/spring-cloud-openfeign/reference/spring-cloud-openfeign.html#spring-cloud-feign-circuitbreaker-fallback) 功能。
 
 ## 快速开始
 ### 目录
 - [项目初始化](#项目初始化)
-- [创建 gRPC 服务定义](#创建 gRPC 服务定义)
+- [创建 gRPC 服务定义](#创建-grpc-服务定义)
 - [定义客户端默认实现](#定义客户端默认实现)
 - [访问客户端](#访问客户端)
 - [示例项目](#示例项目)
@@ -61,11 +61,11 @@ buildscript {
 
 ### 创建 gRPC 服务定义
 
-将您的 protobuf 定义/`.proto`文件放入`src/main/proto`。 有关编写 protobuf 文件的信息，请参阅官方的 [protobuf 文档](https://developers.google.com/protocol-buffers/docs/proto3)。
+将您的 protobuf 定义`.proto`文件放入`src/main/proto`。 有关编写 protobuf 文件的信息，请参阅官方的 [protobuf 文档](https://developers.google.com/protocol-buffers/docs/proto3)。
 
 您的 `.proto` 文件跟如下的示例类似：
 
-````proto
+```proto
 syntax = "proto3";
 
 package io.github.arvinjr.example;
@@ -90,12 +90,12 @@ message HelloRequest {
 message HelloReply {
     string message = 1;
 }
-````
+```
 
-配置 maven/gradle protobuf 插件使其调用 [`protoc`](https://mvnrepository.com/artifact/com.google.protobuf/protoc) 编译器，并使用 [`protoc-gen-grpc-java`](https://mvnrepository.com/artifact/io.grpc/protoc-gen-grpc-java) 插件并生成数据类、grpc 服务类 `ImplicBase`s 和 `Stub`。 请注意，其他插件，如 [reactive-grpc](https://github.com/salesforce/reactive-grpc) 可能会生成其他额外 / 替代类。 然而，它们也可以同样的方式使用。
+配置 maven/gradle protobuf 插件使其调用 [`protoc`](https://mvnrepository.com/artifact/com.google.protobuf/protoc) 编译器，并使用 [`protoc-gen-grpc-java`](https://mvnrepository.com/artifact/io.grpc/protoc-gen-grpc-java) 插件并生成数据类、grpc 服务类 `ImplBase` 和 `Stub`。 请注意，其他插件，如 [reactive-grpc](https://github.com/salesforce/reactive-grpc) 可能会生成其他额外 / 替代类。 然而，它们也可以同样的方式使用。
 
 ### 定义客户端默认实现
-创建一个 `Myservice.AsyncService` 实现并注入 `Spring IOC` 容器。
+创建一个 `MyService.AsyncService` 实现并注入 `Spring IOC` 容器。
 ```java
 import example.HelloReply;
 import example.HelloRequest;
