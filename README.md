@@ -19,14 +19,13 @@ To add a dependency using Maven, use the following:
 <dependency>
     <groupId>io.github.arvinjr</groupId>
     <artifactId>grpc-spring-enhancements</artifactId>
-    <version>1.0.0</version>
 </dependency>
 ```
 
 To add a dependency using Gradle:
 ```gradle
 dependencies {
-  implementation 'io.github.arvinjr:grpc-spring-enhancements:1.0.0'
+  implementation 'io.github.arvinjr:grpc-spring-enhancements'
 }
 ```
 

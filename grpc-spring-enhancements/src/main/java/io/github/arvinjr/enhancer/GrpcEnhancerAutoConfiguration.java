@@ -63,7 +63,7 @@ public class GrpcEnhancerAutoConfiguration {
 					if (fallbackBeans.size() > 1) {
 						log.warn("Multiple default implementations of {} found, using the first one: {}", grpcServiceClass.getSimpleName(), fallbackBean.getClass().getSimpleName());
 					}
-					log.info("Injecting fallbackBean for {}: {}", stubName, fallbackBean);
+					log.info("Injecting fallback bean for {}: {}", stubName, fallbackBean);
 					return stub.withInterceptors(new FallbackInterceptor(fallbackBean));
 				} else {
 					log.warn("No default implementation found for {}, using the default stub.", grpcServiceClass.getSimpleName());
